@@ -92,60 +92,60 @@ void saveFrame(rs2::frame&& frame, rs2_stream streamType, int sequence = 0)
 // capture depth and color video streams and render them to the screen
 int main(int argc, char * argv[]) try
 {
-    const auto CAPACITY = 50; // allow max latency of 5 frames
-    rs2::frame_queue depthQueue(CAPACITY);
-    rs2::frame_queue colorQueue(CAPACITY);
-    rs2::frame_queue infraredQueue0(CAPACITY);
-    rs2::frame_queue infraredQueue1(CAPACITY);
-    s_save_thread_running = true;
-    std::thread depthT([&]() {
-        while (s_save_thread_running)
-        {
-            rs2::frame frame;
-//            int counter = 4;
-//            int infraredCount = 0;
-//            while(queue.poll_for_frame(&frame) && counter > 0) {
-//                auto type = frame.get_profile().stream_type();
-//                if(type == RS2_STREAM_INFRARED) saveFrame(std::move(frame), frame.get_profile().stream_type(), infraredCount++);
-//                else saveFrame(std::move(frame), frame.get_profile().stream_type());
-//                --counter;
-//            }
-//            if(counter == 0) ++s_image_counter;
-//            else if (counter == 4)
-//            {
-//                std::cout << "No images yet, waiting\n";
-//            }
-//            else
-//            {
-//                std::cerr << "There should be four images per capture, something is wrong!\n";
-//                exit(-1);
-//            }
-            if(depthQueue.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
-        }
-    });
-    std::thread colorT([&]() {
-        while (s_save_thread_running)
-        {
-            rs2::frame frame;
-            if(colorQueue.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
-        }
-    });
-
-    std::thread infraredT0([&]() {
-        while (s_save_thread_running)
-        {
-            rs2::frame frame;
-            if(infraredQueue0.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
-        }
-    });
-
-    std::thread infraredT1([&]() {
-        while (s_save_thread_running)
-        {
-            rs2::frame frame;
-            if(infraredQueue1.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type(), 1);
-        }
-    });
+//    const auto CAPACITY = 100; // allow max latency of 5 frames
+//    rs2::frame_queue depthQueue(CAPACITY);
+//    rs2::frame_queue colorQueue(CAPACITY);
+//    rs2::frame_queue infraredQueue0(CAPACITY);
+//    rs2::frame_queue infraredQueue1(CAPACITY);
+//    s_save_thread_running = true;
+//    std::thread depthT([&]() {
+//        while (s_save_thread_running)
+//        {
+//            rs2::frame frame;
+////            int counter = 4;
+////            int infraredCount = 0;
+////            while(queue.poll_for_frame(&frame) && counter > 0) {
+////                auto type = frame.get_profile().stream_type();
+////                if(type == RS2_STREAM_INFRARED) saveFrame(std::move(frame), frame.get_profile().stream_type(), infraredCount++);
+////                else saveFrame(std::move(frame), frame.get_profile().stream_type());
+////                --counter;
+////            }
+////            if(counter == 0) ++s_image_counter;
+////            else if (counter == 4)
+////            {
+////                std::cout << "No images yet, waiting\n";
+////            }
+////            else
+////            {
+////                std::cerr << "There should be four images per capture, something is wrong!\n";
+////                exit(-1);
+////            }
+//            if(depthQueue.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
+//        }
+//    });
+//    std::thread colorT([&]() {
+//        while (s_save_thread_running)
+//        {
+//            rs2::frame frame;
+//            if(colorQueue.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
+//        }
+//    });
+//
+//    std::thread infraredT0([&]() {
+//        while (s_save_thread_running)
+//        {
+//            rs2::frame frame;
+//            if(infraredQueue0.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type());
+//        }
+//    });
+//
+//    std::thread infraredT1([&]() {
+//        while (s_save_thread_running)
+//        {
+//            rs2::frame frame;
+//            if(infraredQueue1.poll_for_frame(&frame)) saveFrame(std::move(frame), frame.get_profile().stream_type(), 1);
+//        }
+//    });
     
     // Create a simple OpenGL window for rendering:
     window app(1280, 720, "RealSense Capture Example");
@@ -186,32 +186,32 @@ int main(int argc, char * argv[]) try
         infrared0_image.render(infrared0, { 0, app.height() / 2, app.width() / 2, app.height() / 2 });
         infrared1_image.render(infrared1, { app.width() / 2, app.height() / 2, app.width() / 2, app.height() / 2 });
 
-        std::cout << "enquing depth frame: " << depth.get_profile().stream_type() << "\n";
-        depthQueue.enqueue(depth);
-        std::cout << "enquing color frame: " << color.get_profile().stream_type() << "\n";
-        colorQueue.enqueue(color);
-        std::cout << "enquing infrared frame 0: " << infrared0.get_profile().stream_type() << "\n";
-        infraredQueue0.enqueue(infrared0);
-        std::cout << "enquing infrared frame 1: " << infrared1.get_profile().stream_type() << "\n";
-        infraredQueue1.enqueue(infrared1);
+        //std::cout << "enquing depth frame: " << depth.get_profile().stream_type() << "\n";
+        //depthQueue.enqueue(depth);
+        //std::cout << "enquing color frame: " << color.get_profile().stream_type() << "\n";
+        //colorQueue.enqueue(color);
+        //std::cout << "enquing infrared frame 0: " << infrared0.get_profile().stream_type() << "\n";
+        //infraredQueue0.enqueue(infrared0);
+        //std::cout << "enquing infrared frame 1: " << infrared1.get_profile().stream_type() << "\n";
+        //infraredQueue1.enqueue(infrared1);
         
-//        //std::cout << "depth format: " << depth.get_profile().format() << "\n";
-//        saveFrame(std::move(depth), depth.get_profile().stream_type());
-//        //std::cout << "color format: " << color.get_profile().format() << "\n";
-//        saveFrame(std::move(color), color.get_profile().stream_type());
-//        //std::cout << "infrared format: " << infrared0.get_profile().format() << "\n";
-//        saveFrame(std::move(infrared0), infrared0.get_profile().stream_type());
-//        saveFrame(std::move(infrared1), infrared1.get_profile().stream_type());
+        //std::cout << "depth format: " << depth.get_profile().format() << "\n";
+        saveFrame(std::move(depth), depth.get_profile().stream_type());
+        //std::cout << "color format: " << color.get_profile().format() << "\n";
+        saveFrame(std::move(color), color.get_profile().stream_type());
+        //std::cout << "infrared format: " << infrared0.get_profile().format() << "\n";
+        saveFrame(std::move(infrared0), infrared0.get_profile().stream_type());
+        saveFrame(std::move(infrared1), infrared1.get_profile().stream_type());
         ++s_image_counter;
         //std::this_thread::sleep_for(std::chrono::milliseconds(1000 / S_FPS));
     }
 
-    s_save_thread_running = false;
+    //s_save_thread_running = false;
     
-    if(depthT.joinable()) depthT.join();
-    if(colorT.joinable()) colorT.join();
-    if(infraredT0.joinable()) infraredT0.join();
-    if(infraredT1.joinable()) infraredT1.join();
+//    if(depthT.joinable()) depthT.join();
+//    if(colorT.joinable()) colorT.join();
+//    if(infraredT0.joinable()) infraredT0.join();
+//    if(infraredT1.joinable()) infraredT1.join();
 
     return EXIT_SUCCESS;
 }
